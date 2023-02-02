@@ -12,6 +12,7 @@ ENV HOME /home/$WP_USER
 ENV CONDA_DIR /opt/conda
 ENV PATH "${CONDA_DIR}/bin:${PATH}"
 ENV PLAIFUL_CONDA_ENV_NAME "plaiful"
+ENV S6_CMD_WAIT_FOR_SERVICES_MAXTIME 0
 
 # add user
 RUN useradd -M -s /bin/bash -N -u ${WP_UID} ${WP_USER} \
@@ -85,9 +86,14 @@ RUN tar -C / -Jxpf /tmp/s6-overlay-x86_64.tar.xz \
 
 COPY root /
 
+COPY ./scripts/activate_env_vars.sh /opt/plaiful/
+COPY ./scripts/deactivate_env_vars.sh /opt/plaiful/
+
 RUN chown -R ${WP_UID}:users /etc/s6-overlay 
 
-RUN chmod +x /etc/s6-overlay/s6-rc.d/init-conda/run 
+RUN chmod +x /etc/s6-overlay/s6-rc.d/init-conda/run \
+  && chmod +x /opt/plaiful/activate_env_vars.sh \
+  && chmod +x /opt/plaiful/deactivate_env_vars.sh
 
 USER ${WP_UID}
 
