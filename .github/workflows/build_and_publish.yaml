@@ -44,7 +44,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }},${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-gpu:latest
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            BASE_IMAGE=nvidia/cuda:${CUDA_VERSION}-cudnn${CUDNN_VERSION}-devel-ubuntu${UBUNTU_VERSION} 
+            BASE_IMAGE=nvidia/cuda:${{ env.CUDA_VERSION }}-cudnn${{ env.CUDNN_VERSION }}-devel-ubuntu${{ env.UBUNTU_VERSION }} 
       
       - name: Build and push cpu image
         uses: docker/build-push-action@v3
@@ -54,4 +54,4 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }},${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            BASE_IMAGE=ubuntu:${UBUNTU_VERSION} 
+            BASE_IMAGE=ubuntu:${{ env.UBUNTU_VERSION }} 
