@@ -1,11 +1,13 @@
 #!/usr/bin/with-contenv bash
 
-if [ ! -d ${CONDA_DIR}/envs/${PLAIFUL_CONDA_ENV_NAME} ]; then
-    echo "Creating plaiful conda environment dir"
-    mkdir -p ${CONDA_DIR}/envs/${PLAIFUL_CONDA_ENV_NAME}
-
+if [ ! -d ${CONDA_DIR}/envs/${PLAIFUL_CONDA_ENV_NAME}/conda-meta ]; then
     echo "Creating plaiful conda environment"
     conda create -n ${PLAIFUL_CONDA_ENV_NAME} -y
+fi
+
+if [ ! -f ${HOME}/.bashrc ]; then
+    echo "Creating .bashrc"
+    touch ${HOME}/.bashrc
 fi
 
 echo "Setting up .bashrc"
